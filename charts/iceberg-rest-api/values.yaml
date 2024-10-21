@@ -1,0 +1,55 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/rosecape/iceberg-rest-api
+  tag: latest
+
+service:
+  port: 8181
+
+storage: s3 # s3, gcp, adls
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 500m
+  limits:
+    memory: ~
+    cpu: ~
+
+catalogs:
+  default:
+    name: warehouse
+    warehouse: s3://iceberg/warehouse
+
+  raw:
+    enabled: true
+    name: raw
+    warehouse: s3://iceberg/warehouse
+
+  clean:
+    enabled: true
+    name: clean
+    warehouse: s3://iceberg/warehouse
+
+s3:
+  pathStyleAccess: "true"
+  endpoint: ~
+  region: ca-central-1
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []
+
+defaultNodeSelector: {}
+
+defaultAffinity: {}
+
+defaultTolerations: []
+
+awsSecretName: iceberg-aws-secret
+gcpSecretName: ~
+azuresecretName: ~
+icebergRestCatalogSecret: ~
