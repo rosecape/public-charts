@@ -2,11 +2,11 @@ apiVersion: v1
 entries:
   iceberg-rest-api:
   - apiVersion: v2
-    created: "2024-10-21T15:08:57.350358-04:00"
+    created: "2024-10-22T07:27:24.251757-04:00"
     description: A Helm chart for deploying iceberg-rest-api
-    digest: 4e812a1dc464c8713b4f1e8c20b5b4d232cb9d62f17ada3b945ac1579211ca2f
+    digest: 54ced442d1dda3d0621310d70f51b03c73711acba57d5ba47054f4e4ad50343b
     name: iceberg-rest-api
     urls:
-    - iceberg-rest-api-0.13.0.tgz
-    version: 0.13.0
-generated: "2024-10-21T15:08:57.350088-04:00"
+    - iceberg-rest-api-0.14.0.tgz
+    version: 0.14.0
+generated: "2024-10-22T07:27:24.251432-04:00"
