@@ -49,6 +49,8 @@ defaultAffinity: {}
 
 defaultTolerations: []
 
+envFrom: []
+
 awsSecretName: iceberg-aws-secret
 gcpSecretName: ~
 azuresecretName: ~

@@ -61,66 +61,76 @@ EXAMPLE USAGE: {{ include "rosecape.podTolerations" (dict "Release" .Release "Va
   - name: CATALOG_IO__IMPL
     value: "org.apache.iceberg.aws.s3.S3FileIO"
 
-  - name: CATALOG_s3_path__style__access
-    value: {{ .Values.s3.pathStyleAccess | quote}}
+  # - name: CATALOG_s3_path__style__access
+  #   value: {{ .Values.s3.pathStyleAccess | quote}}
 
-  - name: AWS_REGION
-    value: {{ .Values.s3.region }}
+  # - name: AWS_REGION
+  #   value: {{ .Values.s3.region }}
 
-  {{- if .Values.s3.endpoint }}
-  - name: CATALOG_s3_endpoint
-    value: {{ .Values.s3.endpoint }}
-  {{- end }}
+  # {{- if .Values.s3.endpoint }}
+  # - name: CATALOG_s3_endpoint
+  #   value: {{ .Values.s3.endpoint }}
+  # {{- end }}
 
-  - name: CATALOG_s3_access__key__id
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.awsSecretName }}
-        key: access_key
+  # - name: CATALOG_s3_access__key__id
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: {{ .Values.awsSecretName }}
+  #       key: access_key
 
-  - name: CATALOG_s3_secret__access__key
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.awsSecretName }}
-        key: secret_access_key
+  # - name: CATALOG_s3_secret__access__key
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: {{ .Values.awsSecretName }}
+  #       key: secret_access_key
 {{- end }}
 
 {{- define "azure_environment" }}
   - name: CATALOG_IO__IMPL
     value: "org.apache.iceberg.azure.adlsv2.ADLSFileIO"
   
-  - name: AZURE_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.azureSecretName }}
-        key: client_id
+  # - name: AZURE_CLIENT_ID
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: {{ .Values.azureSecretName }}
+  #       key: client_id
 
-  - name: AZURE_CLIENT_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.azureSecretName }}
-        key: client_secret
+  # - name: AZURE_CLIENT_SECRET
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: {{ .Values.azureSecretName }}
+  #       key: client_secret
 
-  - name: AZURE_TENANT_ID
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.azureSecretName }}
-        key: tenant_id
+  # - name: AZURE_TENANT_ID
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: {{ .Values.azureSecretName }}
+  #       key: tenant_id
 {{- end }}
 
 {{- define "gcp_environment" }}
   - name: CATALOG_IO__IMPL
     value: "org.apache.iceberg.gcp.gcs.GCSFileIO"
 
-  - name: CATALOG_GCS_PROJECT_ID
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.gcpSecretName }}
-        key: project_id
+  # - name: CATALOG_GCS_PROJECT_ID
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: {{ .Values.gcpSecretName }}
+  #       key: project_id
 
-  - name: CATALOG_GCS_OAUTH2_TOKEN
+  # - name: CATALOG_GCS_OAUTH2_TOKEN
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: {{ .Values.gcpSecretName }}
+  #       key: oauth2_token
+{{- end }}
+
+{{- define "dynamic_secret_management" }}
+{{- range $i, $config := .Values.envFrom }}
+  - name: {{ $config.envName }}
     valueFrom:
       secretKeyRef:
-        name: {{ .Values.gcpSecretName }}
-        key: oauth2_token
+        name: {{ $config.secretName }}
+        key: {{ default "value" $config.secretKey }}
+  {{- end }}
 {{- end }}

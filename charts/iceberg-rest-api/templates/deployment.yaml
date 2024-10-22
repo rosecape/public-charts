@@ -35,6 +35,7 @@ spec:
             - containerPort: {{ .Values.service.port }}
           env:
             {{- include "standard_iceberg_rest_environment" . | indent 10 }}
+            {{- include "dynamic_secret_management" . | indent 10 }}
             {{- if eq .Values.storage "adls" }}
             {{- include "azure_environment" . | indent 10 }}
             {{- end }}
@@ -42,7 +43,7 @@ spec:
             {{- include "aws_environment" . | indent 10 }}
             {{- end }}
 
-          # if requests or limits are set\
+          # if requests or limits are set
           resources:
             {{- if .Values.resources.requests }}
             requests:
